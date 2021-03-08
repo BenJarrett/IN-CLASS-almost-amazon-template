@@ -1,55 +1,48 @@
-// import firebase from 'firebase/app';
-// import 'firebase/auth';
-import { showBooks } from '../components/books';
-import addBookForm from '../components/forms/addBookForm';
-import { createBook, deleteBook } from '../helpers/data/bookData';
-
-const domEvents = () => {
-  document.querySelector('body').addEventListener('click', (e) => {
-    // CLICK EVENT FOR DELETING A BOOK
-    if (e.target.id.includes('delete-book')) {
-      if (window.confirm('Want to delete?')) {
-        const firebaseKey = e.target.id.split('--')[1];
-        deleteBook(firebaseKey).then((booksArray) => showBooks(booksArray));
-      }
-    }
-
-    // CLICK EVENT FOR SHOWING FORM FOR ADDING A BOOK
-    if (e.target.id.includes('add-book-btn')) {
-      addBookForm();
-    }
-
-    // CLICK EVENT FOR SUBMITTING FORM FOR ADDING A BOOK
-    if (e.target.id.includes('submit-book')) {
-      e.preventDefault();
-      const bookObject = {
-        title: document.querySelector('#title').value,
-        image: document.querySelector('#image').value,
-        price: document.querySelector('#price').value,
-        sale: document.querySelector('#sale').checked,
-        author_id: document.querySelector('#author').value,
-        // TODO: Add userId
-        // console.warn(firebase.auth().currentUser);
-      };
-
-      createBook(bookObject).then((booksArray) => showBooks(booksArray));
-    }
-
-    // CLICK EVENT FOR SHOWING MODAL FORM FOR ADDING A BOOK
-    if (e.target.id.includes('edit-book-btn')) {
-      console.warn('CLICKED EDIT BOOK', e.target.id);
-    }
-
-    // CLICK EVENT FOR EDITING A BOOK
-    if (e.target.id.includes('update-book')) {
-      console.warn('CLICKED EDIT BOOK', e.target.id);
-    }
-
-    // ADD CLICK EVENT FOR DELETING AN AUTHOR
-    // ADD CLICK EVENT FOR SHOWING FORM FOR ADDING AN AUTHOR
-    // ADD CLICK EVENT FOR SUBMITTING FORM FOR ADDING AN AUTHOR
-    // ADD CLICK EVENT FOR EDITING AN AUTHOR
-  });
+const navBar = () => {
+  document.querySelector('#navigation').innerHTML = `
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark mb-4">
+        <a class="navbar-brand title" href="#">Almost Amazon</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#" id="all-books">
+                All Books <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="sale-books">Books on Sale</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="favorite-authors">Favorite Authors</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="authors">Authors</a>
+            </li>
+            <li>
+            <input
+              class="form-control mr-sm-2"
+              id="search"
+              placeholder="Search Book Titles"
+              aria-label="Search"
+            />
+            </li>
+          </ul>
+          <div id="cart-button"></div>
+          <div id="logout-button"></div>
+        </div>
+      </nav>
+    `;
 };
 
-export default domEvents;
+export default navBar;

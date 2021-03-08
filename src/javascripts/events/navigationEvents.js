@@ -1,13 +1,14 @@
 import { emptyAuthors, showAuthors } from '../components/authors';
 import { emptyBooks, showBooks } from '../components/books';
 import signOut from '../helpers/auth/signOut';
-import { getAuthors, getFavoriteAuthors } from '../helpers/data/authorData';
+import { getAuthors, favoriteAuthor } from '../helpers/data/authorData';
 import { getBooks, getSaleBooks } from '../helpers/data/bookData';
 
 // navigation events
-const navigationEvents = () => {
+const navigationEvents = (uid) => {
   // LOGOUT BUTTON
-  document.querySelector('#logout-button').addEventListener('click', signOut);
+  document.querySelector('#logout-button')
+    .addEventListener('click', signOut);
 
   // BOOKS ON SALE
   document.querySelector('#sale-books').addEventListener('click', () => {
@@ -22,8 +23,8 @@ const navigationEvents = () => {
 
   // ALL BOOKS
   document.querySelector('#all-books').addEventListener('click', () => {
-    // GET ALL BOOKS on click
-    getBooks().then((booksArray) => {
+    // GET ALL BOOKS
+    getBooks(uid).then((booksArray) => {
       if (booksArray.length) {
         showBooks(booksArray);
       } else {
@@ -52,9 +53,9 @@ const navigationEvents = () => {
   // 2. Convert the response to an array because that is what the makeAuthors function is expecting
   // 3. If the array is empty because there are no authors, make sure to use the emptyAuthor function
   document.querySelector('#authors').addEventListener('click', () => {
-    getAuthors().then((authorArray) => {
-      if (authorArray.length) {
-        showAuthors(authorArray);
+    getAuthors(uid).then((authorsArray) => {
+      if (authorsArray.length) {
+        showAuthors(authorsArray);
       } else {
         emptyAuthors();
       }
@@ -62,9 +63,9 @@ const navigationEvents = () => {
   });
 
   document.querySelector('#favorite-authors').addEventListener('click', () => {
-    getFavoriteAuthors().then((authorArray) => {
-      if (authorArray.length) {
-        showAuthors(authorArray);
+    favoriteAuthor().then((favoriteAuthorArray) => {
+      if (favoriteAuthorArray.length) {
+        showAuthors(favoriteAuthorArray);
       } else {
         emptyAuthors();
       }
